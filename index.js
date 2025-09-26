@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -8,15 +9,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Simple CRUD IS RUNNING");
-});
-
-// name: coffee-app
-// password: XA1yxKfL8kp9WXyU
-console.log(process.env.DB_USER);
-
-const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@mango.90xw8zf.mongodb.net/?retryWrites=true&w=majority&appName=mango`;
 console.log(uri);
 
@@ -35,6 +27,47 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const coffeeCollection = client.db("coffeeDB").collection("coffee");
+
+    /** post and create coffee start task-1 */
+    app.post("/coffee", async (req, res) => {
+      const newCoffee = req.body;
+      // console.log(newCoffee);
+      const result = await coffeeCollection.insertOne(newCoffee);
+      res.send(result);
+    });
+    /** post and create coffee end task-1 */
+
+    /** show this coffee start task-2 */
+    app.get("/coffee", async (req, res) => {
+      const cursor = coffeeCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    /** show this coffee end task-2 */
+
+    /**  delete coffee start task-3 */
+    app.delete("/coffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await coffeeCollection.deleteOne(query);
+      res.send(result);
+    });
+    /**  delete coffee end task-3 */
+
+    /** update this coffee start task-4 */
+    /** coffee find start */
+    app.get("/coffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await coffeeCollection.findOne(query);
+      res.send(result);
+    });
+    /** coffee find end */
+
+    /** update this coffee end task-4 */
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
@@ -42,7 +75,7 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
