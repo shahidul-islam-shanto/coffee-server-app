@@ -100,6 +100,22 @@ async function run() {
     });
     /**user related apis end */
 
+    /**  show users related apis start */
+    app.get("/showUsers", async (req, res) => {
+      const cursor = userCollection.find();
+      const users = await cursor.toArray();
+      res.send(users);
+    });
+    /**  show users related apis end */
+    /** delete users start */
+    app.delete("/showUsers/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+    });
+    /** delete users end */
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
