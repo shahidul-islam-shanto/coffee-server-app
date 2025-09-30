@@ -115,6 +115,19 @@ async function run() {
       res.send(result);
     });
     /** delete users end */
+    /** user update start */
+    app.patch("/showUsers", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const updateDoc = {
+        $set: {
+          lastLoggedAt: user.lastLoggedAt,
+        },
+      };
+      const result = await userCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+    /** user update end */
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
