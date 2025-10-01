@@ -6,11 +6,11 @@
       "use": "@vercel/node"
     }
   ],
-  "routers":[
-  {
-    "src": "/(.*)",
-    "dest": "/",
-    "methods": ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
-  }
+  "routers": [
+    {
+      "src": "/(.*)",
+      "dest": "/",
+      "methods": ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
+    }
   ]
 }
