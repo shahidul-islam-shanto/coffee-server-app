@@ -17,13 +17,5 @@
     "express": "^5.1.0",
     "mongodb": "^6.20.0",
     "vercel": "^48.1.6"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shahidul-islam-shanto/coffee-server-app.git"
-  },
-  "bugs": {
-    "url": "https://github.com/shahidul-islam-shanto/coffee-server-app/issues"
-  },
-  "homepage": "https://github.com/shahidul-islam-shanto/coffee-server-app#readme"
+  }
 }
